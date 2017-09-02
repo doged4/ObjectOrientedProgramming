@@ -1,5 +1,6 @@
 import Tkinter # built-in Python graphics library
 import random
+import math
 
 game_objects = []
 
@@ -9,12 +10,22 @@ class Circle:
 
         self.x = x
         self.y = y
+
+
         self.x_speed = random.randint(-5,5)
         self.y_speed = random.randint(-5,5)
+        # self.x_speed = x/20 -60
+        # self.y_speed = y/20 -60
+        print("Noise")
+
+        while(self.x_speed == 0 and self.y_speed == 0):
+            self.x_speed = random.randint(-5,5)
+            self.y_speed = random.randint(-5,5)
+            print("Zero found")
         # this creates a random hex string between #000000 and #ffffff
         # we draw it with an outline, so we'll be able to see it on a white background regardless
         self.color = '#{0:0>6x}'.format(random.randint(00,16**6))
-        self.size = random.randint(5,75)
+        self.size = random.randint(5,75) #size
 
     def update(self):
         '''Update current location by speed.'''
@@ -28,13 +39,29 @@ class Circle:
         canvas.create_oval(self.x, self.y, self.x + self.size, self.y + self.size,
                            fill=self.color, outline="black")
 
+class Square(Circle):
+    def __init__(self, x, y):
+        # super().__init__(x, y)
+        Circle.__init__(x,y)
+        # super(Square, self).__init__(x,y)
+
+
+    def draw(self, canvas):
+        canvas.create_rectangle(self.x, self.y, self.x + self.size, self.y + self.size,
+                           fill=self.color, outline="black")
+        print("Square")
+
 
 def addCircle(event):
     '''Add a new circle where the user clicked.'''
 
     global game_objects
     game_objects.append(Circle(event.x, event.y))
-
+    #(math.sqrt((event.x-300)**2 + (event.y-300)**2 )/2)
+    # print(event.x event.y)
+def addSquare(event):
+    global game_objects
+    game_objects.append(Square(event.x, event.y))
 
 def reset(event):
     '''Clear all game objects.'''
@@ -64,15 +91,15 @@ if __name__ == '__main__':
 
     # create the graphics root and a 400x400 canvas
     root = Tkinter.Tk()
-    canvas = Tkinter.Canvas(root, width=400, height=400)
+    canvas = Tkinter.Canvas(root, width=600, height=600)
     canvas.pack()
-    
+
     # if the user presses a key or the mouse, call our handlers
     root.bind('<Key-r>', reset)
     root.bind('<Button-1>', addCircle)
+    root.bind('<Button-2>', addSquare)
 
     # start the draw loop
     draw(canvas)
 
     root.mainloop() # keep the window open
-
