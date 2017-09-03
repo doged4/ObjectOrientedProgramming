@@ -4,7 +4,7 @@ import math
 
 game_objects = []
 
-class Circle:
+class Circle (object):
     def __init__(self, x, y):
         '''Create a new circle at the given x,y point with a random speed, color, and size.'''
 
@@ -16,12 +16,12 @@ class Circle:
         self.y_speed = random.randint(-5,5)
         # self.x_speed = x/20 -60
         # self.y_speed = y/20 -60
-        print("Noise")
+        # print("Noise")
 
         while(self.x_speed == 0 and self.y_speed == 0):
             self.x_speed = random.randint(-5,5)
             self.y_speed = random.randint(-5,5)
-            print("Zero found")
+            # print("Zero found")
         # this creates a random hex string between #000000 and #ffffff
         # we draw it with an outline, so we'll be able to see it on a white background regardless
         self.color = '#{0:0>6x}'.format(random.randint(00,16**6))
@@ -39,17 +39,19 @@ class Circle:
         canvas.create_oval(self.x, self.y, self.x + self.size, self.y + self.size,
                            fill=self.color, outline="black")
 
-class Square(Circle):
+class Square (Circle):
     def __init__(self, x, y):
         # super().__init__(x, y)
-        Circle.__init__(x,y)
-        # super(Square, self).__init__(x,y)
+        # Circle.__init__(x,y)
+        super(Square, self).__init__(x,y)
+        # super(Square, self).__init__(self, x,y)
+        # super(self.__class__, self).__init__(x,y)
 
 
     def draw(self, canvas):
         canvas.create_rectangle(self.x, self.y, self.x + self.size, self.y + self.size,
                            fill=self.color, outline="black")
-        print("Square")
+        # print("Square")
 
 
 def addCircle(event):
@@ -96,8 +98,12 @@ if __name__ == '__main__':
 
     # if the user presses a key or the mouse, call our handlers
     root.bind('<Key-r>', reset)
-    root.bind('<Button-1>', addCircle)
-    root.bind('<Button-2>', addSquare)
+    # root.bind('<Button-1>', addCircle)
+    # root.bind('<Button-2>', addSquare)
+
+    root.bind('<Motion>', addCircle)
+    root.bind('<Button-1>', addSquare)
+
 
     # start the draw loop
     draw(canvas)
