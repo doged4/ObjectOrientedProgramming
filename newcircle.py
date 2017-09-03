@@ -39,6 +39,7 @@ class Circle (object):
         canvas.create_oval(self.x, self.y, self.x + self.size, self.y + self.size,
                            fill=self.color, outline="black")
 
+
 class Square (Circle):
     def __init__(self, x, y):
         # super().__init__(x, y)
@@ -56,7 +57,7 @@ class Square (Circle):
 
 def addCircle(event):
     '''Add a new circle where the user clicked.'''
-
+    # print (str(event.x)+", "+str(event.y))
     global game_objects
     game_objects.append(Circle(event.x, event.y))
     #(math.sqrt((event.x-300)**2 + (event.y-300)**2 )/2)
@@ -81,7 +82,10 @@ def draw(canvas):
     for game_object in game_objects:
         game_object.update()
         game_object.draw(canvas)
-
+#           to make it glitchy loking but to keep it from lagging, nex 2 lines \/
+        # if ((game_object.x > 800 and game_object.x_speed > 0) or (game_object.x < -200 and game_object.x_speed < 0) or (game_object.y > 800 and game_object.y_speed > 0) or (game_object.y < -200 and game_object.y_speed < 0) ):
+        #     game_objects.remove(game_object)
+        # game_objects.remove(game_object) # < for a tail
     delay = 33 # milliseconds, so about 30 frames per second
     canvas.after(delay, draw, canvas) # call this draw function with the canvas argument again after the delay
 
