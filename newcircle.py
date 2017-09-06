@@ -44,7 +44,7 @@ class Square (Circle):
     def __init__(self, x, y):
         # super().__init__(x, y)
         # Circle.__init__(x,y)
-        super(Square, self).__init__(x,y) #< Stealing the circle's init
+    #not necessary ----^\/>    super(Square, self).__init__(x,y) #< Stealing the circle's init
         # super(Square, self).__init__(self, x,y)
         # super(self.__class__, self).__init__(x,y)
 
