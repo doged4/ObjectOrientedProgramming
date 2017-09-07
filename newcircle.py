@@ -3,6 +3,7 @@ import random
 import math
 
 game_objects = []
+delete-group = []
 
 class Circle (object):
     def __init__(self, x, y):
@@ -14,6 +15,8 @@ class Circle (object):
 
         self.x_speed = random.randint(-5,5)
         self.y_speed = random.randint(-5,5)
+        self.square = False
+
         # self.x_speed = x/20 -60
         # self.y_speed = y/20 -60
         # print("Noise")
@@ -44,7 +47,8 @@ class Square (Circle):
     def __init__(self, x, y):
         # super().__init__(x, y)
         # Circle.__init__(x,y)
-    #not necessary ----^\/>    super(Square, self).__init__(x,y) #< Stealing the circle's init
+        super(Square, self).__init__(x,y) #< Stealing the circle's init
+        self.square = True
         # super(Square, self).__init__(self, x,y)
         # super(self.__class__, self).__init__(x,y)
 
@@ -82,9 +86,18 @@ def draw(canvas):
     for game_object in game_objects:
         game_object.update()
         game_object.draw(canvas) # <which still works because overwritten
+        if (game_object.square == True):
+            for collided in game_objects:
+                if #inspace of
+                delete-group.append(collided)
+
+    game_objects.remove(collided)
+
 
     delay = 33 # milliseconds, so about 30 frames per second
     canvas.after(delay, draw, canvas) # call this draw function with the canvas argument again after the delay
+
+
 
 # this is a standard Python thing: definitions go above, and any code that will actually
 # run should go into the __main__ section. This way, if someone imports the file because
