@@ -15,7 +15,6 @@ class Circle (object):
 
         self.x_speed = random.randint(-5,5)
         self.y_speed = random.randint(-5,5)
-        self.square = False
 
         # self.x_speed = x/20 -60
         # self.y_speed = y/20 -60
@@ -97,8 +96,8 @@ def draw(canvas):
         print toDelete.x, toDelete.y
         game_objects.remove(toDelete)
 #sketchy!!!!!!!!!!!!!! \/
-        deleteGroup.remove(toDelete)
-
+        #deleteGroup.remove(toDelete)
+    deleteGroup = []
 
 
     delay = 33 # milliseconds, so about 30 frames per second

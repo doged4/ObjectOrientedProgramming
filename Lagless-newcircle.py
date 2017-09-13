@@ -3,6 +3,7 @@ import random
 import math
 
 game_objects = []
+deleteGroup = []
 
 class Circle (object):
     def __init__(self, x, y):
@@ -11,6 +12,7 @@ class Circle (object):
         self.x = x
         self.y = y
 
+        self.square = False
 
         self.x_speed = random.randint(-5,5)
         self.y_speed = random.randint(-5,5)
@@ -45,6 +47,7 @@ class Square (Circle):
         # super().__init__(x, y)
         # Circle.__init__(x,y)
         super(Square, self).__init__(x,y)
+        self.square = True
         # super(Square, self).__init__(self, x,y)
         # super(self.__class__, self).__init__(x,y)
 
@@ -79,13 +82,26 @@ def draw(canvas):
 
     canvas.delete(Tkinter.ALL)
 
-    global game_objects
+    global game_objects, deleteGroup
     for game_object in game_objects:
         game_object.update()
         game_object.draw(canvas)
 #           to make it glitchy loking but to keep it from lagging, nex 2 lines \/
         if ((game_object.x > 800 and game_object.x_speed > 0) or (game_object.x < -200 and game_object.x_speed < 0) or (game_object.y > 800 and game_object.y_speed > 0) or (game_object.y < -200 and game_object.y_speed < 0) ):
-            game_objects.remove(game_object)
+            deleteGroup.append(game_object)
+        if (game_object.square):
+            for collided in game_objects:
+                if ( not collided.square):
+                    if((game_object.x < collided.x and collided.x < (game_object.x + game_object.size))  or (game_object.x < (collided.x + collided.size) and (collided.x + collided.size)<(game_object.x + game_object.size))):#inspace of
+                        if((game_object.y < collided.y and collided.y < (game_object.y + game_object.size))  or (game_object.y < (collided.y + collided.size) and (collided.y + collided.size)<(game_object.y + game_object.size))):#inspace of
+                            deleteGroup.append(collided)
+    deleteGroup = list(set(deleteGroup))
+    for toDelete in deleteGroup:
+        print toDelete.x, toDelete.y
+        game_objects.remove(toDelete)
+        #sketchy!!!!!!!!!!!!!! \/
+        deleteGroup.remove(toDelete)
+    deleteGroup = []
         # game_objects.remove(game_object) # < for a tail
     delay = 33 # milliseconds, so about 30 frames per second
     canvas.after(delay, draw, canvas) # call this draw function with the canvas argument again after the delay
