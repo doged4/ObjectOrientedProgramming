@@ -3,7 +3,7 @@ import random
 import math
 
 game_objects = []
-delete-group = []
+deleteGroup = []
 
 class Circle (object):
     def __init__(self, x, y):
@@ -11,7 +11,7 @@ class Circle (object):
 
         self.x = x
         self.y = y
-
+        self.square = False
 
         self.x_speed = random.randint(-5,5)
         self.y_speed = random.randint(-5,5)
@@ -82,16 +82,23 @@ def draw(canvas):
 
     canvas.delete(Tkinter.ALL)
 
-    global game_objects
+    global game_objects, deleteGroup
     for game_object in game_objects:
         game_object.update()
         game_object.draw(canvas) # <which still works because overwritten
-        if (game_object.square == True):
+        if (game_object.square):
             for collided in game_objects:
-                if #inspace of
-                delete-group.append(collided)
+                if ( not collided.square):
+                    if((game_object.x < collided.x and collided.x < (game_object.x + game_object.size))  or (game_object.x < (collided.x + collided.size) and (collided.x + collided.size)<(game_object.x + game_object.size))):#inspace of
+                        if((game_object.y < collided.y and collided.y < (game_object.y + game_object.size))  or (game_object.y < (collided.y + collided.size) and (collided.y + collided.size)<(game_object.y + game_object.size))):#inspace of
+                            deleteGroup.append(collided)
+    deleteGroup = list(set(deleteGroup))
+    for toDelete in deleteGroup:
+        print toDelete.x, toDelete.y
+        game_objects.remove(toDelete)
+#sketchy!!!!!!!!!!!!!! \/
+        deleteGroup.remove(toDelete)
 
-    game_objects.remove(collided)
 
 
     delay = 33 # milliseconds, so about 30 frames per second
